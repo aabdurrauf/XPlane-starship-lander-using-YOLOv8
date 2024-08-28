@@ -32,7 +32,7 @@ import os
 class XPlane:
     
     def __init__(self,
-                 yolo_model_path="D:\\Projects\\xplane_yolo\\yolo\\n\\weights\\best.pt",
+                 yolo_model_path="D:\\Projects\\xplane_yolo\\yolo\\m\\weights\\best.pt",
                  xplane_screen = [2, 103, 1278, 714],
                  fps=30
                  ):
@@ -223,7 +223,7 @@ class XPlane:
         rect21_start = (CENTER_X+70, CENTER_Y-100)  # Starting coordinate, e.g., (x1, y1)
         rect21_end = (CENTER_X+100, CENTER_Y-100)  # Ending coordinate, e.g., (x2, y2)
         rect22_start = (CENTER_X+100, CENTER_Y-100)  # Starting coordinate, e.g., (x1, y1)
-        rect22_end = (CENTER_X+100, 287)  # Ending coordinate, e.g., (x2, y2)
+        rect22_end = (CENTER_X+100, CENTER_Y-70)  # Ending coordinate, e.g., (x2, y2)
         
         rect31_start = (CENTER_X-100, CENTER_Y+100)  # Starting coordinate, e.g., (x1, y1)
         rect31_end = (CENTER_X-70, CENTER_Y+100)  # Ending coordinate, e.g., (x2, y2)
@@ -490,7 +490,7 @@ class XPlane:
             # calculate the distance error from pixel to meter
             x_pixel = self.target_center[0] - CENTER_X
             y_pixel = self.target_center[1] - CENTER_Y
-            numerator = (0.00001215 * self.altitude**3) - (0.00825 * self.altitude**2) + (1.889 * self.altitude) + 105
+            numerator = (0.00001215 * altitude**3) - (0.00825 * altitude**2) + (1.889 * altitude) + 105
             dx = y_pixel / ((numerator/altitude)*4)
             dz = -x_pixel / ((numerator/altitude)*4)
             
@@ -681,13 +681,13 @@ class XPlane:
                             abs(self.roll)*0.5 + abs(self.pitch_rate) + abs(self.roll_rate) + abs(self.ver_vel) + abs(self.dx) + abs(self.dz)
                     
                 print(f'behavior: {behavior}\n')   
-                if behavior <= 15 or self.has_crashed:
+                if behavior <= 12 or self.has_crashed:
                     self.pitch_integral = 0
                     self.roll_integral = 0
                     self.yaw_integral = 0
                     target_altitude = 5
                     stage = 3
-                elif behavior <= 20:
+                elif behavior <= 22:
                     target_altitude = self.altitude + 10
             
             elif stage == 3:

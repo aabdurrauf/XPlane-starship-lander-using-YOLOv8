@@ -214,7 +214,7 @@ class XPlane:
         rect21_start = (CENTER_X+70, CENTER_Y-100)  # Starting coordinate, e.g., (x1, y1)
         rect21_end = (CENTER_X+100, CENTER_Y-100)  # Ending coordinate, e.g., (x2, y2)
         rect22_start = (CENTER_X+100, CENTER_Y-100)  # Starting coordinate, e.g., (x1, y1)
-        rect22_end = (CENTER_X+100, 287)  # Ending coordinate, e.g., (x2, y2)
+        rect22_end = (CENTER_X+100, CENTER_Y-70)  # Ending coordinate, e.g., (x2, y2)
         
         rect31_start = (CENTER_X-100, CENTER_Y+100)  # Starting coordinate, e.g., (x1, y1)
         rect31_end = (CENTER_X-70, CENTER_Y+100)  # Ending coordinate, e.g., (x2, y2)

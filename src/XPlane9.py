@@ -228,7 +228,7 @@ class XPlane:
         rect21_start = (CENTER_X+70, CENTER_Y-100)  # Starting coordinate, e.g., (x1, y1)
         rect21_end = (CENTER_X+100, CENTER_Y-100)  # Ending coordinate, e.g., (x2, y2)
         rect22_start = (CENTER_X+100, CENTER_Y-100)  # Starting coordinate, e.g., (x1, y1)
-        rect22_end = (CENTER_X+100, 287)  # Ending coordinate, e.g., (x2, y2)
+        rect22_end = (CENTER_X+100, CENTER_Y-70)  # Ending coordinate, e.g., (x2, y2)
         
         rect31_start = (CENTER_X-100, CENTER_Y+100)  # Starting coordinate, e.g., (x1, y1)
         rect31_end = (CENTER_X-70, CENTER_Y+100)  # Ending coordinate, e.g., (x2, y2)
@@ -656,13 +656,13 @@ class XPlane:
                                 abs(self.ver_vel) + abs(self.dx) + abs(self.dz)
                     
                 print(f'behavior: {behavior}\n')
-                if behavior <= 15 or self.has_crashed:
+                if behavior <= 12 or self.has_crashed:
                     self.pitch_integral = 0
                     self.roll_integral = 0
                     self.yaw_integral = 0
                     target_altitude = 5
                     stage = 3
-                elif behavior <= 20:
+                elif behavior <= 22:
                     target_altitude = self.altitude + 10
             
             elif stage == 3:
