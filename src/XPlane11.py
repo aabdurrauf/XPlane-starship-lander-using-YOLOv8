@@ -55,20 +55,20 @@ class XPlane:
         self.prev_target_center = None
         self.record_data = True
         
-        self.altitude = None
-        self.ver_vel = None
-        self.pitch = None
-        self.pitch_rate = None
-        self.roll = None
-        self.roll_rate = None
-        self.yaw = None
-        self.yaw_rate = None
-        self.ver_vel = None
-        self.dx = None
-        self.dz = None
-        self.vel_x = None
-        self.vel_z = None
-        self.FPS = None
+        self.altitude = 0
+        self.ver_vel = 0
+        self.pitch = 0
+        self.pitch_rate = 0
+        self.roll = 0
+        self.roll_rate = 0
+        self.yaw = 0
+        self.yaw_rate = 0
+        self.ver_vel = 0
+        self.dx = 0
+        self.dz = 0
+        self.vel_x = 0
+        self.vel_z = 0
+        self.FPS = 0
         self.has_crashed = False
         
         self.main_engine = 0
@@ -480,7 +480,7 @@ class XPlane:
         if not self.height_px == None:
             # calculate the altitude from the object detection
             px = self.height_px if self.height_px > 30 else 30.001
-            altitude=-53 * log(px - 30) + 0.112 * px + 272
+            altitude = -53 * log(px - 30) + 0.112 * px + 272
 
         else:
             altitude = altitude_gps
@@ -490,7 +490,7 @@ class XPlane:
             # calculate the distance error from pixel to meter
             x_pixel = self.target_center[0] - CENTER_X
             y_pixel = self.target_center[1] - CENTER_Y
-            numerator = (0.00001215 * altitude**3) - (0.00825 * self.altitude**2) + (1.889 * self.altitude) + 105
+            numerator = (0.00001215 * self.altitude**3) - (0.00825 * self.altitude**2) + (1.889 * self.altitude) + 105
             dx = y_pixel / ((numerator/altitude)*4)
             dz = -x_pixel / ((numerator/altitude)*4)
             
@@ -584,9 +584,9 @@ class XPlane:
             values = self.starship.get_states()
 
             # extract values
-            self.altitude = values[0]
-            self.dx = values[1] # position along x axis
-            self.dz = values[2] # position along z axis
+            # self.altitude = values[0]
+            # self.dx = values[1] # position along x axis
+            # self.dz = values[2] # position along z axis
             self.ver_vel = values[3] # vertical rate error (used when landing)
             self.pitch = values[4] # pitch error (desired pitch = 0)
             self.pitch_rate = values[9] # pitch rate error (desired pitch rate = 0)
@@ -598,7 +598,7 @@ class XPlane:
             self.vel_z = values[8] # velocity along z axis
             self.has_crashed = values[12]
             
-            if self.altitude < 200 and self.altitude > 20 and self.ver_vel < 0:
+            if self.altitude < 150 and self.altitude > 0 and self.ver_vel < 0:
                 
                 if delay_dx_dy % 50 == 0:
                     self.altitude = values[0]
@@ -681,13 +681,13 @@ class XPlane:
                             abs(self.roll)*0.5 + abs(self.pitch_rate) + abs(self.roll_rate) + abs(self.ver_vel) + abs(self.dx) + abs(self.dz)
                     
                 print(f'behavior: {behavior}\n')   
-                if behavior <= 10 or self.has_crashed:
+                if behavior <= 15 or self.has_crashed:
                     self.pitch_integral = 0
                     self.roll_integral = 0
                     self.yaw_integral = 0
                     target_altitude = 5
                     stage = 3
-                elif behavior <= 12:
+                elif behavior <= 20:
                     target_altitude = self.altitude + 10
             
             elif stage == 3:
